@@ -31,7 +31,7 @@ struct CardThreeContent: View {
         type.gradient
 
         // Pokemon image as background
-        Image("uni")
+        Image("poodle")
           .resizable()
           .aspectRatio(contentMode: .fill)
           .frame(width: cardWidth, height: cardHeight)
