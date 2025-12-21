@@ -11,7 +11,7 @@
 #include "ShaderUtilities.metal"
 using namespace metal;
 
-[[stitchable]] half4 amazingRareEffect(
+[[stitchable]] half4 shimmer(
     float2 position,
     SwiftUI::Layer layer,
     float2 size,
@@ -26,27 +26,29 @@ using namespace metal;
         return originalColor;
     }
 
-    // Dual glitter layers (40%/45% and 55%/55%)
-    float2 offset1 = float2(0.4, 0.45) + tilt * 0.12;
-    float2 offset2 = float2(0.55, 0.55) - tilt * 0.12;
+    // Smooth flowing shimmer waves instead of grid-based glitter
+    float2 waveUV1 = uv + tilt * 0.15;
+    float2 waveUV2 = uv - tilt * 0.1;
 
-    // Glitter layer 1
-    float2 glitterUV1 = (uv + offset1) * 65.0;
-    float2 cell1 = floor(glitterUV1);
-    float hash1 = hash21(cell1);
-    float sparkle1 = step(0.86, hash1);
-    float phase1 = hash1 * 6.28 + time * 4.5 + (tilt.x + tilt.y) * 3.5;
-    float glitter1 = sparkle1 * pow(max(0.0, sin(phase1)), 7.0);
+    // Layer 1: diagonal flowing shimmer
+    float wave1 = sin((waveUV1.x + waveUV1.y) * 12.0 + time * 2.5) * 0.5 + 0.5;
+    wave1 *= sin(waveUV1.x * 8.0 - time * 1.8) * 0.5 + 0.5;
+    wave1 = pow(wave1, 3.0);
 
-    // Glitter layer 2
-    float2 glitterUV2 = (uv + offset2) * 85.0;
-    float2 cell2 = floor(glitterUV2);
-    float hash2 = hash21(cell2 + 150.0);
-    float sparkle2 = step(0.88, hash2);
-    float phase2 = hash2 * 6.28 + time * 3.8 + (tilt.x - tilt.y) * 3.0;
-    float glitter2 = sparkle2 * pow(max(0.0, sin(phase2)), 7.0);
+    // Layer 2: cross-hatch shimmer at different frequency
+    float wave2 = sin((waveUV2.x - waveUV2.y) * 15.0 + time * 3.0) * 0.5 + 0.5;
+    wave2 *= sin(waveUV2.y * 10.0 + time * 2.2) * 0.5 + 0.5;
+    wave2 = pow(wave2, 3.0);
 
-    float totalGlitter = max(glitter1, glitter2);
+    // Layer 3: circular ripple from tilt position
+    float2 rippleCenter = float2(0.5 + tilt.x * 0.3, 0.5 + tilt.y * 0.3);
+    float rippleDist = length(uv - rippleCenter);
+    float ripple = sin(rippleDist * 25.0 - time * 4.0) * 0.5 + 0.5;
+    ripple *= smoothstep(0.6, 0.0, rippleDist);
+    ripple = pow(ripple, 2.0);
+
+    // Combine shimmer layers
+    float totalGlitter = max(max(wave1 * 0.6, wave2 * 0.5), ripple * 0.7);
 
     // Radial gradient at tilt position
     float2 radialCenter = float2(0.5 + tilt.x * 0.35, 0.5 + tilt.y * 0.35);
@@ -88,18 +90,9 @@ using namespace metal;
     half3 saturatedLayer = mix(half3(lum), holoLayer, 1.5h);
     holoLayer = mix(holoLayer, saturatedLayer, 0.3h);
 
-    // Different glare for "masked" vs "unmasked" areas
-    // Simulate with edge detection
-    float edgeDist = min(min(uv.x, 1.0 - uv.x), min(uv.y, 1.0 - uv.y));
-    float edgeMask = smoothstep(0.0, 0.15, edgeDist);
-
-    // Overlay glare (changes based on mask)
+    // Overlay glare based on radial glow
     half3 glareColor = half3(half(radialGlow));
-    if (edgeMask > 0.5) {
-        holoLayer = blendOverlay(holoLayer, glareColor * 0.4h);
-    } else {
-        holoLayer = blendMultiply(holoLayer, half3(1.0h) - glareColor * 0.2h);
-    }
+    holoLayer = blendOverlay(holoLayer, glareColor * 0.4h);
 
     // Mix with original
     half3 result = mix(originalColor.rgb, holoLayer, half(intensity * 0.75));
