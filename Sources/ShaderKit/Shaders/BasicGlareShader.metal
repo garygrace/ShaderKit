@@ -8,6 +8,7 @@
 
 #include <metal_stdlib>
 #include <SwiftUI/SwiftUI_Metal.h>
+#include "ShaderUtilities.metal"
 using namespace metal;
 
 [[stitchable]] half4 simpleGlare(
@@ -16,7 +17,8 @@ using namespace metal;
     float2 size,
     float2 tilt,
     float time,
-    float intensity
+    float intensity,
+    float2 touchPos  // Touch position in 0-1 UV space, (-1,-1) means no touch
 ) {
     float2 uv = position / size;
     half4 originalColor = layer.sample(position);
@@ -26,52 +28,43 @@ using namespace metal;
         return originalColor;
     }
 
-    // Calculate glare position based on tilt
-    // Tilt is -1 to 1, we map to 0-1 UV space
-    float2 glareCenter = float2(
-        0.5 + tilt.x * 0.4,
-        0.5 + tilt.y * 0.4
-    );
+    // Check if we have a valid touch position
+    bool isTouching = touchPos.x >= 0.0 && touchPos.y >= 0.0;
 
-    // Radial gradient from glare center
+    // No touch = no glare
+    if (!isTouching) {
+        return originalColor;
+    }
+
+    // Glare centered exactly on touch position
+    float2 glareCenter = touchPos;
+
+    // Glare follows finger exactly
     float dist = length(uv - glareCenter);
-    float glare = smoothstep(0.8, 0.0, dist);
-    glare = pow(glare, 2.0); // Make it more concentrated
+    float glare = smoothstep(0.45, 0.0, dist);
+    glare = pow(glare, 1.5);
 
-    // Secondary, softer glare on opposite side
-    float2 glareCenter2 = float2(
-        0.5 - tilt.x * 0.3,
-        0.5 - tilt.y * 0.3
-    );
-    float glare2 = smoothstep(0.6, 0.0, length(uv - glareCenter2)) * 0.3;
+    float totalGlare = glare;
 
-    // Combine glares
-    float totalGlare = glare + glare2;
+    half3 result = originalColor.rgb;
 
-    // Apply brightness and contrast (CSS filter equivalent)
-    // brightness(0.6) contrast(4)
-    half3 adjusted = originalColor.rgb;
+    // Soft light for the base glare - visible but not overpowering
+    half3 glareLayer = half3(0.5h + half(totalGlare * 0.7));
+    result = blendSoftLight(result, glareLayer * half(intensity));
 
-    // Luminosity blend mode - use glare to brighten
-    half lum = dot(adjusted, half3(0.299h, 0.587h, 0.114h));
-    half3 glareColor = half3(1.0h, 1.0h, 1.0h);
+    // Add a touch of screen blend for extra pop
+    result = mix(result, result + half3(half(totalGlare * 0.25)), half(intensity));
 
-    // Mix based on glare intensity
-    half3 result = mix(adjusted, adjusted + glareColor * half(totalGlare * 0.8), half(intensity));
-
-    // Add slight rainbow tint based on position
-    float hueShift = (tilt.x + tilt.y) * 0.1 + time * 0.05;
+    // Rainbow tint that follows the glare position
+    float hueShift = (touchPos.x + touchPos.y) * 0.3 + time * 0.05;
     half3 tint = half3(
         0.5h + 0.5h * half(sin(hueShift * 6.28)),
         0.5h + 0.5h * half(sin((hueShift + 0.33) * 6.28)),
         0.5h + 0.5h * half(sin((hueShift + 0.66) * 6.28))
     );
 
-    // Subtle tint in the glare area
-    result = mix(result, result * tint + tint * half(totalGlare * 0.2), half(totalGlare * 0.3 * intensity));
-
-    // Apply contrast boost in glare area
-    result = mix(result, (result - 0.5h) * 1.5h + 0.5h, half(totalGlare * 0.5 * intensity));
+    // Color tint in the glare area
+    result = mix(result, blendOverlay(result, tint), half(totalGlare * 0.25 * intensity));
 
     return half4(clamp(result, half3(0.0h), half3(1.0h)), originalColor.a);
 }

@@ -38,6 +38,7 @@ public struct HolographicCardContainer<Content: View>: View {
   @State private var motionManager = MotionManager()
   @State private var startTime = Date.now
   @State private var dragOffset: CGSize = .zero
+  @State private var touchPosition: CGPoint? = nil
   
   /// Creates a holographic card container.
   ///
@@ -71,9 +72,9 @@ public struct HolographicCardContainer<Content: View>: View {
         x: motionManager.tilt.x + dragOffset.width / 100,
         y: motionManager.tilt.y + dragOffset.height / 100
       )
-      
+
       content()
-        .shaderContext(tilt: effectiveTilt, time: elapsedTime)
+        .shaderContext(tilt: effectiveTilt, time: elapsedTime, touchPosition: touchPosition)
         .frame(width: width, height: height)
         .clipShape(RoundedRectangle(cornerRadius: cornerRadius))
         .rotation3DEffect(
@@ -93,16 +94,22 @@ public struct HolographicCardContainer<Content: View>: View {
           y: CGFloat(effectiveTilt.y * 10)
         )
         .gesture(
-          DragGesture()
+          DragGesture(minimumDistance: 0)
             .onChanged { value in
               withAnimation(.interactiveSpring) {
                 dragOffset = value.translation
               }
+              // Track touch position normalized to 0-1
+              touchPosition = CGPoint(
+                x: value.location.x / width,
+                y: value.location.y / height
+              )
             }
             .onEnded { _ in
               withAnimation(.spring(response: 0.5, dampingFraction: 0.6)) {
                 dragOffset = .zero
               }
+              touchPosition = nil
             }
         )
     }

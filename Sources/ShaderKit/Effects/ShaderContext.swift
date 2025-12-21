@@ -20,14 +20,19 @@ public struct ShaderContext: Equatable, Sendable {
   /// The tilt position, typically from device motion or drag gestures.
   /// Values are normalized to roughly -1 to 1 range.
   public var tilt: CGPoint
-  
+
   /// The elapsed time since the effect started, used for animations.
   public var time: TimeInterval
-  
+
+  /// The touch position in normalized coordinates (0 to 1).
+  /// nil when not touching. Used for effects that follow finger position.
+  public var touchPosition: CGPoint?
+
   /// Creates a shader context with the given tilt and time values.
-  public init(tilt: CGPoint = .zero, time: TimeInterval = 0) {
+  public init(tilt: CGPoint = .zero, time: TimeInterval = 0, touchPosition: CGPoint? = nil) {
     self.tilt = tilt
     self.time = time
+    self.touchPosition = touchPosition
   }
 }
 
@@ -56,8 +61,9 @@ public extension View {
   /// - Parameters:
   ///   - tilt: The tilt position from device motion or drag
   ///   - time: The elapsed time for animations
+  ///   - touchPosition: Optional touch position in normalized 0-1 coordinates
   /// - Returns: A view with shader context injected
-  func shaderContext(tilt: CGPoint, time: TimeInterval) -> some View {
-    environment(\.shaderContext, ShaderContext(tilt: tilt, time: time))
+  func shaderContext(tilt: CGPoint, time: TimeInterval, touchPosition: CGPoint? = nil) -> some View {
+    environment(\.shaderContext, ShaderContext(tilt: tilt, time: time, touchPosition: touchPosition))
   }
 }

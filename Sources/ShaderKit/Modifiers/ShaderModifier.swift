@@ -42,20 +42,25 @@ public struct ShaderModifier: ViewModifier {
   private var tilt: CGPoint {
     tiltOverride ?? context.tilt
   }
-  
+
   private var time: TimeInterval {
     timeOverride ?? context.time
+  }
+
+  private var touchPosition: CGPoint? {
+    context.touchPosition
   }
   
   public func body(content: Content) -> some View {
     let currentTilt = tilt
     let currentTime = time
     let currentEffect = effect
-    
+    let currentTouchPosition = touchPosition
+
     content
       .drawingGroup()
       .visualEffect { view, proxy in
-        applyEffect(currentEffect, to: view, size: proxy.size, tilt: currentTilt, time: currentTime)
+        applyEffect(currentEffect, to: view, size: proxy.size, tilt: currentTilt, time: currentTime, touchPosition: currentTouchPosition)
       }
   }
 }
@@ -67,7 +72,8 @@ private func applyEffect<V: VisualEffect>(
   to view: V,
   size: CGSize,
   tilt: CGPoint,
-  time: TimeInterval
+  time: TimeInterval,
+  touchPosition: CGPoint?
 ) -> some VisualEffect {
   let shaders = ShaderKit.shaders
   
@@ -239,12 +245,14 @@ private func applyEffect<V: VisualEffect>(
     )
     
   case .simpleGlare(let intensity):
+    let touch = touchPosition ?? CGPoint(x: -1, y: -1)
     return view.layerEffect(
       shaders.simpleGlare(
         .float2(size.width, size.height),
         .float2(tilt.x, tilt.y),
         .float(time),
-        .float(intensity)
+        .float(intensity),
+        .float2(touch.x, touch.y)
       ),
       maxSampleOffset: .zero
     )
