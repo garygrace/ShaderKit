@@ -8,7 +8,7 @@
 import SwiftUI
 import ShaderKit
 
-struct AmazingRareView: View {
+struct ShimmerDemo: View {
   var body: some View {
     ZStack {
       Color.black.ignoresSafeArea()
@@ -20,13 +20,21 @@ struct AmazingRareView: View {
       ) {
         SimpleCardContent(
           title: "AMAZING RARE",
-          subtitle: "Amazing Holo",
-          gradientColors: [
-            Color(red: 0.18, green: 0.22, blue: 0.25),
-            Color(red: 0.12, green: 0.15, blue: 0.18),
-            Color(red: 0.2, green: 0.2, blue: 0.25)
-          ]
-        )
+          subtitle: "Amazing Holo"
+        ) {
+          RoundedRectangle(cornerRadius: 16)
+            .fill(
+              LinearGradient(
+                colors: [
+                  Color(red: 0.18, green: 0.22, blue: 0.25),
+                  Color(red: 0.12, green: 0.15, blue: 0.18),
+                  Color(red: 0.2, green: 0.2, blue: 0.25)
+                ],
+                startPoint: .topLeading,
+                endPoint: .bottomTrailing
+              )
+            )
+        }
         .shimmer(intensity: 0.8)
       }
     }
@@ -39,6 +47,6 @@ struct AmazingRareView: View {
 
 #Preview {
   NavigationStack {
-    AmazingRareView()
+    ShimmerDemo()
   }
 }

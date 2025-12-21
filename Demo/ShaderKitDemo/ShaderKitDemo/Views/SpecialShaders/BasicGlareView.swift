@@ -20,14 +20,22 @@ struct BasicGlareView: View {
       ) {
         SimpleCardContent(
           title: "BASIC GLARE",
-          subtitle: "Common Card",
-          gradientColors: [
-            Color(red: 0.95, green: 0.9, blue: 0.8),
-            Color(red: 0.9, green: 0.85, blue: 0.75),
-            Color(red: 0.85, green: 0.8, blue: 0.7)
-          ]
-        )
-        .simpleGlare(intensity: 0.8)
+          subtitle: "Common Card"
+        ) {
+          RoundedRectangle(cornerRadius: 16)
+            .fill(
+              LinearGradient(
+                colors: [
+                  Color(red: 0.95, green: 0.9, blue: 0.8),
+                  Color(red: 0.9, green: 0.85, blue: 0.75),
+                  Color(red: 0.85, green: 0.8, blue: 0.7)
+                ],
+                startPoint: .topLeading,
+                endPoint: .bottomTrailing
+              )
+            )
+            .simpleGlare(intensity: 0.8)
+        }
       }
     }
     .navigationTitle("Basic Glare")

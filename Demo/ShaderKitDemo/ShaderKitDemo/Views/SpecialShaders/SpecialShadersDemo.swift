@@ -10,7 +10,7 @@ import ShaderKit
 
 enum SpecialShaderType: String, CaseIterable, Identifiable {
   case basicGlare = "Basic Glare"
-  case regularHolo = "Regular Holo"
+  case verticalBeams = "Vertical Beams"
   case reverseHolo = "Reverse Holo"
   case cosmosHolo = "Cosmos Holo"
   case rainbowRare = "Rainbow Rare"
@@ -28,7 +28,7 @@ enum SpecialShaderType: String, CaseIterable, Identifiable {
     switch self {
     case .basicGlare:
       return "Simple radial glare following tilt position"
-    case .regularHolo:
+    case .verticalBeams:
       return "Rainbow vertical beams that shift with tilt"
     case .reverseHolo:
       return "Inverted foil effect with shine overlay"
@@ -56,7 +56,7 @@ enum SpecialShaderType: String, CaseIterable, Identifiable {
   var icon: String {
     switch self {
     case .basicGlare: return "sun.max.fill"
-    case .regularHolo: return "rainbow"
+    case .verticalBeams: return "rainbow"
     case .reverseHolo: return "rectangle.on.rectangle.angled"
     case .cosmosHolo: return "sparkles"
     case .rainbowRare: return "star.fill"
@@ -75,8 +75,8 @@ enum SpecialShaderType: String, CaseIterable, Identifiable {
     switch self {
     case .basicGlare:
       BasicGlareView()
-    case .regularHolo:
-      RegularHoloView()
+    case .verticalBeams:
+      VerticalBeamsDemo()
     case .reverseHolo:
       ReverseHoloView()
     case .cosmosHolo:
@@ -86,7 +86,7 @@ enum SpecialShaderType: String, CaseIterable, Identifiable {
     case .shinyRare:
       ShinyRareView()
     case .pokemonV:
-      PokemonVView()
+      DiagonalHoloView()
     case .vMax:
       VMaxView()
     case .vStar:
@@ -94,9 +94,9 @@ enum SpecialShaderType: String, CaseIterable, Identifiable {
     case .secretGold:
       SecretGoldView()
     case .radiantHolo:
-      RadiantHoloView()
+      CrisscrossHoloView()
     case .amazingRare:
-      AmazingRareView()
+      ShimmerDemo()
     }
   }
 }

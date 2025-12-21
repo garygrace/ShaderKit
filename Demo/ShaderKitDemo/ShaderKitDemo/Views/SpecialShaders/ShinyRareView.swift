@@ -20,13 +20,21 @@ struct ShinyRareView: View {
       ) {
         SimpleCardContent(
           title: "SHINY RARE",
-          subtitle: "Ultra Metallic",
-          gradientColors: [
-            Color(red: 0.2, green: 0.2, blue: 0.22),
-            Color(red: 0.15, green: 0.15, blue: 0.18),
-            Color(red: 0.22, green: 0.2, blue: 0.25)
-          ]
-        )
+          subtitle: "Ultra Metallic"
+        ) {
+          RoundedRectangle(cornerRadius: 16)
+            .fill(
+              LinearGradient(
+                colors: [
+                  Color(red: 0.2, green: 0.2, blue: 0.22),
+                  Color(red: 0.15, green: 0.15, blue: 0.18),
+                  Color(red: 0.22, green: 0.2, blue: 0.25)
+                ],
+                startPoint: .topLeading,
+                endPoint: .bottomTrailing
+              )
+            )
+        }
         .metallicCrosshatch(intensity: 0.75)
       }
     }

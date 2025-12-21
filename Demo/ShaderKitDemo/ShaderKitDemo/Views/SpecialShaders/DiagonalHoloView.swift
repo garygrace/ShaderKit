@@ -1,5 +1,5 @@
 //
-//  PokemonVView.swift
+//  DiagonalHoloView.swift
 //  ShaderKitDemo
 //
 //  Diagonal holographic effect with parallel lines
@@ -8,7 +8,7 @@
 import SwiftUI
 import ShaderKit
 
-struct PokemonVView: View {
+struct DiagonalHoloView: View {
   var body: some View {
     ZStack {
       Color.black.ignoresSafeArea()
@@ -19,19 +19,27 @@ struct PokemonVView: View {
         shadowColor: .orange
       ) {
         SimpleCardContent(
-          title: "POKEMON V",
+          title: "Diagonal Holo",
           subtitle: "Ultra Rare",
-          image: "puppy",
-          gradientColors: [
-            Color(red: 0.2, green: 0.15, blue: 0.1),
-            Color(red: 0.15, green: 0.1, blue: 0.08),
-            Color(red: 0.25, green: 0.15, blue: 0.1)
-          ]
-        )
-        .diagonalHolo(intensity: 0.7)
+          image: "unicorn"
+        ) {
+          RoundedRectangle(cornerRadius: 16)
+            .fill(
+              LinearGradient(
+                colors: [
+                  Color(red: 0.2, green: 0.15, blue: 0.1),
+                  Color(red: 0.15, green: 0.1, blue: 0.08),
+                  Color(red: 0.25, green: 0.15, blue: 0.1)
+                ],
+                startPoint: .topLeading,
+                endPoint: .bottomTrailing
+              )
+            )
+            .diagonalHolo(intensity: 0.7)
+        }
       }
     }
-    .navigationTitle("Pokemon V")
+    .navigationTitle("Diagonal Holo")
 #if os(iOS)
     .navigationBarTitleDisplayMode(.inline)
 #endif
@@ -40,6 +48,6 @@ struct PokemonVView: View {
 
 #Preview {
   NavigationStack {
-    PokemonVView()
+    DiagonalHoloView()
   }
 }

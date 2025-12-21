@@ -7,47 +7,28 @@
 
 import SwiftUI
 
-public struct SimpleCardContent: View {
-  public let gradientColors: [Color]
+public struct SimpleCardContent<Background: View>: View {
   public let title: String
   public let subtitle: String
   public let image: String
-  
+  public let background: Background
+
   public init(
     title: String = "HOLO CARD",
     subtitle: String = "Special Edition",
-    image: String = "uni",
-    gradientColors: [Color] = [
-      Color(red: 0.2, green: 0.1, blue: 0.3),
-      Color(red: 0.1, green: 0.1, blue: 0.2),
-      Color(red: 0.15, green: 0.05, blue: 0.25)
-    ]
+    image: String = "unicorn",
+    @ViewBuilder background: () -> Background
   ) {
     self.title = title
     self.subtitle = subtitle
     self.image = image
-    self.gradientColors = gradientColors
+    self.background = background()
   }
-  
-  private var effectiveGradientColors: [Color] {
-    gradientColors.isEmpty ? [
-      Color(red: 0.2, green: 0.1, blue: 0.3),
-      Color(red: 0.1, green: 0.1, blue: 0.2),
-      Color(red: 0.15, green: 0.05, blue: 0.25)
-    ] : gradientColors
-  }
-  
+
   public var body: some View {
     ZStack {
-      // Background gradient
-      RoundedRectangle(cornerRadius: 16)
-        .fill(
-          LinearGradient(
-            colors: effectiveGradientColors,
-            startPoint: .topLeading,
-            endPoint: .bottomTrailing
-          )
-        )
+      // Background
+      background
       
       // Content
       VStack(spacing: 16) {
@@ -71,6 +52,7 @@ public struct SimpleCardContent: View {
           .frame(maxWidth: .infinity, maxHeight: .infinity)
           .clipShape(RoundedRectangle(cornerRadius: 8))
           .padding(.horizontal, 12)
+
         
         // Footer
         VStack(spacing: 8) {

@@ -1,44 +1,44 @@
 //
-//  CosmosHoloView.swift
+//  VerticalBeamsDemo.swift
 //  ShaderKitDemo
 //
-//  Galaxy background with rainbow gradient overlay
+//  Rainbow vertical beam holographic effect
 //
 
 import SwiftUI
 import ShaderKit
 
-struct CosmosHoloView: View {
+struct VerticalBeamsDemo: View {
   var body: some View {
     ZStack {
       Color.black.ignoresSafeArea()
-      
+
       HolographicCardContainer(
         width: 260,
         height: 380,
-        shadowColor: .purple
+        shadowColor: .cyan
       ) {
         SimpleCardContent(
-          title: "COSMOS HOLO",
-          subtitle: "Galaxy Rare"
+          title: "VERTICAL BEAMS",
+          subtitle: "Holofoil Rare"
         ) {
           RoundedRectangle(cornerRadius: 16)
             .fill(
               LinearGradient(
                 colors: [
-                  Color(red: 0.05, green: 0.02, blue: 0.15),
-                  Color(red: 0.02, green: 0.02, blue: 0.1),
-                  Color(red: 0.08, green: 0.02, blue: 0.12)
+                  Color(red: 0.15, green: 0.2, blue: 0.35),
+                  Color(red: 0.1, green: 0.15, blue: 0.3),
+                  Color(red: 0.2, green: 0.15, blue: 0.35)
                 ],
                 startPoint: .topLeading,
                 endPoint: .bottomTrailing
               )
             )
-            .galaxyHolo(intensity: 0.8)
+            .verticalBeams(intensity: 0.7)
         }
       }
     }
-    .navigationTitle("Cosmos Holo")
+    .navigationTitle("Vertical Beams")
 #if os(iOS)
     .navigationBarTitleDisplayMode(.inline)
 #endif
@@ -47,6 +47,6 @@ struct CosmosHoloView: View {
 
 #Preview {
   NavigationStack {
-    CosmosHoloView()
+    VerticalBeamsDemo()
   }
 }

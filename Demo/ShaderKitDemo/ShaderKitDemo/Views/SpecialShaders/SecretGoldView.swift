@@ -20,13 +20,21 @@ struct SecretGoldView: View {
       ) {
         SimpleCardContent(
           title: "SECRET GOLD",
-          subtitle: "Secret Rare",
-          gradientColors: [
-            Color(red: 0.3, green: 0.25, blue: 0.1),
-            Color(red: 0.25, green: 0.2, blue: 0.08),
-            Color(red: 0.35, green: 0.28, blue: 0.1)
-          ]
-        )
+          subtitle: "Secret Rare"
+        ) {
+          RoundedRectangle(cornerRadius: 16)
+            .fill(
+              LinearGradient(
+                colors: [
+                  Color(red: 0.3, green: 0.25, blue: 0.1),
+                  Color(red: 0.25, green: 0.2, blue: 0.08),
+                  Color(red: 0.35, green: 0.28, blue: 0.1)
+                ],
+                startPoint: .topLeading,
+                endPoint: .bottomTrailing
+              )
+            )
+        }
         .goldShimmer(intensity: 0.8)
       }
     }

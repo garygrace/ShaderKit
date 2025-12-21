@@ -20,13 +20,21 @@ struct VMaxView: View {
       ) {
         SimpleCardContent(
           title: "VMAX",
-          subtitle: "Gigantamax Rare",
-          gradientColors: [
-            Color(red: 0.1, green: 0.15, blue: 0.25),
-            Color(red: 0.08, green: 0.1, blue: 0.2),
-            Color(red: 0.12, green: 0.12, blue: 0.22)
-          ]
-        )
+          subtitle: "Gigantamax Rare"
+        ) {
+          RoundedRectangle(cornerRadius: 16)
+            .fill(
+              LinearGradient(
+                colors: [
+                  Color(red: 0.1, green: 0.15, blue: 0.25),
+                  Color(red: 0.08, green: 0.1, blue: 0.2),
+                  Color(red: 0.12, green: 0.12, blue: 0.22)
+                ],
+                startPoint: .topLeading,
+                endPoint: .bottomTrailing
+              )
+            )
+        }
         .subtleGradient(intensity: 0.7)
       }
     }
