@@ -1,8 +1,8 @@
 //
-//  CardOneShaders.metal
-//  SwiftUIAnimationDemos
+//  DiamondGridShader.metal
+//  ShaderKit
 //
-//  Diamond holographic pattern shader for CardOne
+//  Diamond holographic grid pattern shader
 //
 
 #include <metal_stdlib>

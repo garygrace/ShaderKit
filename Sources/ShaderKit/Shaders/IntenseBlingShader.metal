@@ -1,8 +1,8 @@
 //
-//  CardTwoShaders.metal
-//  SwiftUIAnimationDemos
+//  IntenseBlingShader.metal
+//  ShaderKit
 //
-//  Intense holographic shader for CardTwo (maximum bling)
+//  Maximum intensity holographic shader with dense diamond grid
 //
 
 #include <metal_stdlib>

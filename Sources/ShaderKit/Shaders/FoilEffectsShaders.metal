@@ -1,8 +1,8 @@
 //
-//  CardThreeShaders.metal
-//  SwiftUIAnimationDemos
+//  FoilEffectsShaders.metal
+//  ShaderKit
 //
-//  Holographic foil, glitter, and light sweep shaders for CardThree
+//  Core holographic foil, glitter, and light sweep shaders
 //
 
 #include <metal_stdlib>
@@ -10,7 +10,7 @@
 using namespace metal;
 
 // Rainbow color generation
-static half3 cardThree_rainbow(float angle, float intensity) {
+static half3 generateRainbow(float angle, float intensity) {
     half3 color;
     color.r = sin(angle) * 0.5h + 0.5h;
     color.g = sin(angle + 2.094h) * 0.5h + 0.5h;
@@ -45,7 +45,7 @@ static half3 cardThree_rainbow(float angle, float intensity) {
 
     float pattern = (wave1 + wave2 + wave3) / 3.0;
 
-    half3 rainbow = cardThree_rainbow(angle + pattern * 2.0, 1.0);
+    half3 rainbow = generateRainbow(angle + pattern * 2.0, 1.0);
 
     // Sparkle effect
     float sparkleAngle = (uv.x * 50.0 + uv.y * 50.0 + time * 10.0);
@@ -104,7 +104,7 @@ static half3 cardThree_rainbow(float angle, float intensity) {
     // Sparkle color
     half3 sparkleColor = half3(1.0h, 1.0h, 1.0h);
     float rainbowAngle = random * 6.28 + tilt.x * 2.0 + tilt.y * 2.0;
-    sparkleColor += cardThree_rainbow(rainbowAngle, 0.3) * 0.5h;
+    sparkleColor += generateRainbow(rainbowAngle, 0.3) * 0.5h;
 
     half3 finalColor = originalColor.rgb + sparkleColor * half(point * sparkleIntensity * 0.8);
 

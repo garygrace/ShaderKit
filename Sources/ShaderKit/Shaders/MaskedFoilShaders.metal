@@ -1,11 +1,8 @@
 //
-//  CardSixShaders.metal
-//  SwiftUIAnimationDemos
+//  MaskedFoilShaders.metal
+//  ShaderKit
 //
-//  Reverse Holo effect:
-//  - Foil layer on background/border (not on artwork)
-//  - Mask layer separates image window from foil areas
-//  - Glare sweeps across, clipped differently for image vs foil
+//  Masked foil effects with separate treatment for image and foil areas
 //
 
 #include <metal_stdlib>

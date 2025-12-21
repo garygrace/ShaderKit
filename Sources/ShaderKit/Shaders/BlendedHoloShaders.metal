@@ -1,12 +1,9 @@
 //
-//  CardFiveShaders.metal
-//  SwiftUIAnimationDemos
+//  BlendedHoloShaders.metal
+//  ShaderKit
 //
-//  Blended holographic effect:
-//  - Effect blends WITH the image content (not just on top)
-//  - Uses luminance-based blending - effect interacts with artwork
-//  - Repeating gradients shift with tilt (background-position)
-//  - Screen/overlay blend modes for natural integration
+//  Blended holographic effects using luminance-based blending
+//  with repeating gradients and screen/overlay blend modes
 //
 
 #include <metal_stdlib>
@@ -20,7 +17,7 @@ static half getLuminance(half3 color) {
 }
 
 // Simplified soft light blend (different from shared version)
-static half3 cardFive_softLight(half3 base, half3 blend) {
+static half3 localSoftLight(half3 base, half3 blend) {
     return (1.0h - 2.0h * blend) * base * base + 2.0h * blend * base;
 }
 
@@ -126,7 +123,7 @@ static half3 cardFive_softLight(half3 base, half3 blend) {
     half3 overlayBlend = blendOverlay(originalColor.rgb, rainbowColor * 0.6h);
 
     // 3. Soft light - subtle color tinting
-    half3 softBlend = cardFive_softLight(originalColor.rgb, rainbowColor * 0.4h);
+    half3 softBlend = localSoftLight(originalColor.rgb, rainbowColor * 0.4h);
 
     // Mix the blend modes
     half3 blendedColor = mix(screenBlend, overlayBlend, 0.5h);

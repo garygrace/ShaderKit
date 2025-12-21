@@ -1,9 +1,9 @@
 //
-//  CardFourShaders.metal
-//  SwiftUIAnimationDemos
+//  StarburstShaders.metal
+//  ShaderKit
 //
-//  Starburst radial rainbow holographic shader - mimics premium Pokemon card effects
-//  with multi-source iridescence, radial streaks, and sparkle particles
+//  Starburst radial rainbow holographic shader with multi-source
+//  iridescence, radial streaks, and sparkle particles
 //
 
 #include <metal_stdlib>
