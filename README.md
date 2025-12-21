@@ -6,6 +6,12 @@ A Swift package for composable Metal shaders and holographic UI effects in Swift
 [![iOS 17+](https://img.shields.io/badge/iOS-17+-blue.svg)](https://developer.apple.com)
 [![macOS 14+](https://img.shields.io/badge/macOS-14+-blue.svg)](https://developer.apple.com)
 
+# Demos:
+
+<img width="1011" height="527" alt="Image" src="https://github.com/user-attachments/assets/bbc42372-0235-4ef6-843c-89a1b1e908d0" />
+
+https://github.com/user-attachments/assets/6f813c40-f022-4874-ad97-d83cda51747f
+
 ## Quick Start
 
 Create holographic cards with composable shader effects:
