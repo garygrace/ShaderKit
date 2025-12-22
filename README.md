@@ -54,7 +54,7 @@ dependencies: [
 
 ## Available Shaders
 
-ShaderKit provides 27 composable shader effects across 4 categories.
+ShaderKit provides 31 composable shader effects across 5 categories.
 
 ### Foil Effects
 
@@ -102,6 +102,16 @@ ShaderKit provides 27 composable shader effects across 4 categories.
 | `.radialStar()` | Star pattern with radial fade | `intensity: Double = 0.7` |
 | `.subtleGradient()` | Large-scale subtle gradient | `intensity: Double = 0.7` |
 | `.metallicCrosshatch()` | Metallic sun-pillar with crosshatch | `intensity: Double = 0.7` |
+| `.spiralRings()` | Concentric spiral rings with metallic effect | `intensity: Double = 0.8, ringCount: Double = 20, spiralTwist: Double = 0.5` |
+
+### Glass Effects
+
+| Effect | Description | Parameters |
+|--------|-------------|------------|
+| `.glassEnclosure()` | Plastic/glass layer with beveled edges | `intensity: Double = 1.0, cornerRadius: Double = 0.05, bevelSize: Double = 0.7, glossiness: Double = 0.8` |
+| `.glassSheen()` | Simple glass sheen overlay | `intensity: Double = 0.7, spread: Double = 0.5` |
+| `.glassBevel()` | Edge bevel with visual thickness | `intensity: Double = 0.8, thickness: Double = 0.6` |
+| `.chromaticGlass()` | Prismatic RGB separation at edges | `intensity: Double = 0.6, separation: Double = 0.4` |
 
 ## Composing Effects
 
@@ -149,6 +159,14 @@ HolographicCardContainer(width: 260, height: 364, shadowColor: .yellow) {
         ArtworkLayer()
     }
     .angledSweep()
+}
+
+// Glass-encased collectible card
+HolographicCardContainer(width: 280, height: 400, shadowColor: .white.opacity(0.3)) {
+    CardContent()
+        .foil()
+        .glitter()
+        .glassEnclosure()
 }
 ```
 
