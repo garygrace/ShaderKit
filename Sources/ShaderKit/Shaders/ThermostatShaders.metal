@@ -178,8 +178,6 @@ float fbm(float2 p, int octaves) {
 
         half3 coolPlasma = half3(0.4h, 0.6h, 1.0h);
         half3 warmPlasma = half3(1.0h, 0.4h, 0.8h);
-        half3 hotPlasma = half3(1.0h, 0.6h, 0.3h);
-
         half3 baseColor = mix(coolPlasma, warmPlasma, half(blend));
         finalColor = baseColor * half(intensity);
 

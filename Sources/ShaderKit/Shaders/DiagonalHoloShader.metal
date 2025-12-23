@@ -11,11 +11,6 @@
 #include "ShaderUtilities.metal"
 using namespace metal;
 
-// Local grain texture with specific scaling
-static float pokemonV_grain(float2 uv, float time) {
-    return hash21(uv * 500.0 + time * 50.0);
-}
-
 [[stitchable]] half4 diagonalHolo(
     float2 position,
     SwiftUI::Layer layer,

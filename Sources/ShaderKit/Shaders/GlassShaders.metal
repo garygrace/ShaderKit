@@ -344,7 +344,6 @@ float sdRoundedRect(float2 p, float2 size, float radius) {
     float glossiness         // How shiny/reflective (0.0 - 1.0)
 ) {
     float2 uv = position / size;
-    float2 centered = uv - 0.5;
     half4 color = layer.sample(position);
 
     // --- EDGE DISTANCES ---

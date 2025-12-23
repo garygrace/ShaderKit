@@ -10,6 +10,11 @@
 #include <SwiftUI/SwiftUI_Metal.h>
 using namespace metal;
 
+// Suppress unused function warnings - this is a utility library
+// where not all functions are used by every shader that includes it
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wunused-function"
+
 // =============================================================================
 // MARK: - Color Space Conversions
 // =============================================================================
@@ -415,3 +420,5 @@ static float scanlines(float2 uv, float density, float thickness) {
     float line = fract(uv.y * density);
     return smoothstep(0.0, thickness, line) * smoothstep(1.0, 1.0 - thickness, line);
 }
+
+#pragma clang diagnostic pop
