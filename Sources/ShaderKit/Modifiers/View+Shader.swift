@@ -203,4 +203,54 @@ public extension View {
   func metallicCrosshatch(intensity: Double = 0.7) -> some View {
     shader(.metallicCrosshatch(intensity: intensity))
   }
+
+  // MARK: - Seasonal Effects
+
+  /// Apply snowfall effect with falling snowflakes, twinkling stars,
+  /// and customizable gradient colors.
+  /// - Parameters:
+  ///   - intensity: Effect strength (default 0.8)
+  ///   - snowDensity: Density of falling snowflakes (default 0.5)
+  ///   - starDensity: Density of twinkling stars (default 0.6)
+  ///   - primaryColor: Primary gradient color (default SIMD4<Float>(0.8, 0.1, 0.15, 1.0))
+  ///   - secondaryColor: Secondary gradient color (default SIMD4<Float>(0.1, 0.5, 0.2, 1.0))
+  func snowfall(
+    intensity: Double = 0.8,
+    snowDensity: Double = 0.5,
+    starDensity: Double = 0.6,
+    primaryColor: SIMD4<Float> = SIMD4<Float>(0.8, 0.1, 0.15, 1.0),
+    secondaryColor: SIMD4<Float> = SIMD4<Float>(0.1, 0.5, 0.2, 1.0)
+  ) -> some View {
+    shader(.snowfall(
+      intensity: intensity,
+      snowDensity: snowDensity,
+      starDensity: starDensity,
+      primaryColor: primaryColor,
+      secondaryColor: secondaryColor
+    ))
+  }
+
+  /// Apply Frozen-inspired effect with super shiny icy silver background
+  /// and floating light blue stars.
+  /// - Parameters:
+  ///   - intensity: Effect strength (default 0.85)
+  ///   - starDensity: Density of floating stars (default 0.6)
+  ///   - shimmerIntensity: Intensity of ice shimmer effect (default 0.8)
+  ///   - iceColor: Base ice/silver color (default icy white)
+  ///   - starColor: Color of floating stars (default light blue)
+  func frozen(
+    intensity: Double = 0.85,
+    starDensity: Double = 0.6,
+    shimmerIntensity: Double = 0.8,
+    iceColor: SIMD4<Float> = SIMD4<Float>(0.9, 0.95, 1.0, 1.0),
+    starColor: SIMD4<Float> = SIMD4<Float>(0.6, 0.85, 1.0, 1.0)
+  ) -> some View {
+    shader(.frozen(
+      intensity: intensity,
+      starDensity: starDensity,
+      shimmerIntensity: shimmerIntensity,
+      iceColor: iceColor,
+      starColor: starColor
+    ))
+  }
 }

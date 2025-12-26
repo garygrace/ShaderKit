@@ -445,5 +445,37 @@ private func applyEffect<V: VisualEffect>(
       ),
       maxSampleOffset: CGSize(width: maxOffset, height: maxOffset)
     )
+
+    // MARK: - Seasonal Effects
+
+  case .snowfall(let intensity, let snowDensity, let starDensity, let primaryColor, let secondaryColor):
+    return view.layerEffect(
+      shaders.snowfall(
+        .float2(size.width, size.height),
+        .float2(tilt.x, tilt.y),
+        .float(time),
+        .float(intensity),
+        .float(snowDensity),
+        .float(starDensity),
+        .float4(primaryColor.x, primaryColor.y, primaryColor.z, primaryColor.w),
+        .float4(secondaryColor.x, secondaryColor.y, secondaryColor.z, secondaryColor.w)
+      ),
+      maxSampleOffset: .zero
+    )
+
+  case .frozen(let intensity, let starDensity, let shimmerIntensity, let iceColor, let starColor):
+    return view.layerEffect(
+      shaders.frozen(
+        .float2(size.width, size.height),
+        .float2(tilt.x, tilt.y),
+        .float(time),
+        .float(intensity),
+        .float(starDensity),
+        .float(shimmerIntensity),
+        .float4(iceColor.x, iceColor.y, iceColor.z, iceColor.w),
+        .float4(starColor.x, starColor.y, starColor.z, starColor.w)
+      ),
+      maxSampleOffset: .zero
+    )
   }
 }
