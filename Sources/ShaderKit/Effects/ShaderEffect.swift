@@ -148,4 +148,26 @@ public enum ShaderEffect: Equatable, Sendable {
     intensity: Double = 0.6,
     separation: Double = 0.4
   )
+
+  // MARK: - Seasonal Effects
+
+  /// Snowfall effect with falling snowflakes, twinkling stars,
+  /// and customizable gradient colors
+  case snowfall(
+    intensity: Double = 0.8,
+    snowDensity: Double = 0.5,
+    starDensity: Double = 0.6,
+    primaryColor: SIMD4<Float> = SIMD4<Float>(0.8, 0.1, 0.15, 1.0),
+    secondaryColor: SIMD4<Float> = SIMD4<Float>(0.1, 0.5, 0.2, 1.0)
+  )
+
+  /// Frozen-inspired effect with super shiny icy silver background
+  /// and floating light blue stars - Elsa aesthetic
+  case frozen(
+    intensity: Double = 0.85,
+    starDensity: Double = 0.6,
+    shimmerIntensity: Double = 0.8,
+    iceColor: SIMD4<Float> = SIMD4<Float>(0.9, 0.95, 1.0, 1.0),
+    starColor: SIMD4<Float> = SIMD4<Float>(0.6, 0.85, 1.0, 1.0)
+  )
 }

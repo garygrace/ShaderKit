@@ -13,7 +13,7 @@ enum ShaderSection: String, CaseIterable {
 }
 
 enum ShaderType: String, CaseIterable, Identifiable {
-  // Basic Shaders (12 items)
+  // Basic Shaders (14 items)
   case basicGlare = "Basic Glare"
   case verticalBeams = "Vertical Beams"
   case reverseHolo = "Reverse Holo"
@@ -26,6 +26,8 @@ enum ShaderType: String, CaseIterable, Identifiable {
   case radiantHolo = "Radiant Holo"
   case amazingRare = "Amazing Rare"
   case spiralRings = "Spiral Rings"
+  case snowfall = "Snowfall"
+  case frozen = "Frozen"
 
   // Composable Shaders (7 items)
   case foilGlitterSweep = "Foil + Glitter + Sweep"
@@ -42,7 +44,7 @@ enum ShaderType: String, CaseIterable, Identifiable {
     switch self {
     case .basicGlare, .verticalBeams, .reverseHolo, .cosmosHolo,
         .rainbowRare, .shinyRare, .diagonalHolo, .vMax, .vStar,
-        .radiantHolo, .amazingRare, .spiralRings:
+        .radiantHolo, .amazingRare, .spiralRings, .snowfall, .frozen:
       return .basic
     case .foilGlitterSweep, .gradientFoil, .psychicHolo,
         .starburstRadial, .layeredHolo, .maskedFoil, .glassEnclosure:
@@ -77,6 +79,10 @@ enum ShaderType: String, CaseIterable, Identifiable {
       return "Glittery metallic shimmer effect"
     case .spiralRings:
       return "Golden spiral rings with holographic rainbow"
+    case .snowfall:
+      return "Falling snowflakes, twinkling stars, gradient colors"
+    case .frozen:
+      return "Icy silver shimmer with floating blue stars"
     // Composable Shaders
     case .foilGlitterSweep:
       return "Combined foil, glitter, and light sweep"
@@ -110,6 +116,8 @@ enum ShaderType: String, CaseIterable, Identifiable {
     case .radiantHolo: return "rays"
     case .amazingRare: return "wand.and.stars"
     case .spiralRings: return "circle.circle"
+    case .snowfall: return "snowflake"
+    case .frozen: return "sparkle"
     // Composable Shaders
     case .foilGlitterSweep: return "wand.and.sparkles"
     case .gradientFoil: return "paintpalette.fill"
@@ -149,6 +157,10 @@ enum ShaderType: String, CaseIterable, Identifiable {
       ShimmerDemo()
     case .spiralRings:
       SpiralRingsView()
+    case .snowfall:
+      SnowfallView()
+    case .frozen:
+      FrozenView()
     // Composable Shaders
     case .foilGlitterSweep:
       FoilGlitterSweepView()

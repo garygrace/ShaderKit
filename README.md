@@ -54,7 +54,7 @@ dependencies: [
 
 ## Available Shaders
 
-ShaderKit provides 31 composable shader effects across 5 categories.
+ShaderKit provides 33 composable shader effects across 6 categories.
 
 ### Foil Effects
 
@@ -113,6 +113,13 @@ ShaderKit provides 31 composable shader effects across 5 categories.
 | `.glassBevel()` | Edge bevel with visual thickness | `intensity: Double = 0.8, thickness: Double = 0.6` |
 | `.chromaticGlass()` | Prismatic RGB separation at edges | `intensity: Double = 0.6, separation: Double = 0.4` |
 
+### Seasonal Effects
+
+| Effect | Description | Parameters |
+|--------|-------------|------------|
+| `.snowfall()` | Falling snowflakes with twinkling stars | `intensity: Double = 0.8, snowDensity: Double = 0.5, starDensity: Double = 0.6, primaryColor: SIMD4<Float>, secondaryColor: SIMD4<Float>` |
+| `.frozen()` | Icy silver shimmer with floating blue stars | `intensity: Double = 0.85, starDensity: Double = 0.6, shimmerIntensity: Double = 0.8, iceColor: SIMD4<Float>, starColor: SIMD4<Float>` |
+
 ## Composing Effects
 
 Chain multiple effects to create unique combinations:
@@ -167,6 +174,21 @@ HolographicCardContainer(width: 280, height: 400, shadowColor: .white.opacity(0.
         .foil()
         .glitter()
         .glassEnclosure()
+}
+
+// Winter snowfall effect
+HolographicCardContainer(width: 260, height: 380, shadowColor: .cyan) {
+    CardContent()
+        .snowfall(
+            primaryColor: SIMD4<Float>(0.3, 0.5, 0.7, 1.0),
+            secondaryColor: SIMD4<Float>(0.2, 0.4, 0.6, 1.0)
+        )
+}
+
+// Frozen ice magic effect
+HolographicCardContainer(width: 260, height: 380, shadowColor: .cyan) {
+    CardContent()
+        .frozen(starDensity: 0.7, shimmerIntensity: 0.9)
 }
 ```
 
